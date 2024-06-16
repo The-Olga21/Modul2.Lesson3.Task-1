@@ -23,7 +23,7 @@ const FieldLayout = ({
 	];
 
 	const onClick = (index) => {
-		if (field[index] === '' && !isGameEnded) {
+		if (!field[index] && !isGameEnded) {
 			field[index] = currentPlayer;
 			setField(field);
 			if (currentPlayer === 'X') {
@@ -33,18 +33,14 @@ const FieldLayout = ({
 			}
 		}
 		const isAllFullFieldButtons = field.every((item) => {
-			return item !== '';
+			return item;
 		});
 		for (let i = 0; i < WIN_PATTERNS.length; i++) {
 			const [a, b, c] = WIN_PATTERNS[i];
 			if (field[a] && field[a] === field[b] && field[a] === field[c]) {
 				setIsGameEnded(true);
 				setCurrentPlayer(field[a]);
-			} else if (
-				field[a] !== field[b] &&
-				field[a] !== field[c] &&
-				isAllFullFieldButtons
-			) {
+			} else if (field[a] !== field[b] && isAllFullFieldButtons) {
 				setIsDraw(true);
 			}
 		}
@@ -62,7 +58,7 @@ const FieldLayout = ({
 							className={styles['field-button']}
 							onClick={(e) => onClick(index)}
 						>
-							{field[index] !== '' ? field[index] : ''}
+							{field[index] ? field[index] : ''}
 						</button>
 					</li>
 				))}
