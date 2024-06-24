@@ -13,19 +13,9 @@ const InformationLayout = ({ currentPlayer, isDraw, isGameEnded }) => {
 	);
 };
 
-export const Information = ({
-	setIsDraw,
-	setIsGameEnded,
-	setCurrentPlayer,
-	currentPlayer,
-	isDraw,
-	isGameEnded,
-}) => {
+export const Information = ({ currentPlayer, isDraw, isGameEnded }) => {
 	return (
 		<InformationLayout
-			setIsDraw={setIsDraw}
-			setIsGameEnded={setIsGameEnded}
-			setCurrentPlayer={setCurrentPlayer}
 			currentPlayer={currentPlayer}
 			isDraw={isDraw}
 			isGameEnded={isGameEnded}

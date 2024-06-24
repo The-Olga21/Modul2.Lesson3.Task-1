@@ -12,6 +12,7 @@ const GameLayout = ({
 	isDraw,
 	isGameEnded,
 	setField,
+	onClick,
 }) => {
 	const startAgain = () => {
 		setCurrentPlayer('X');
@@ -22,23 +23,12 @@ const GameLayout = ({
 	return (
 		<div className={styles.app}>
 			<Information
-				setIsDraw={setIsDraw}
-				setIsGameEnded={setIsGameEnded}
-				setCurrentPlayer={setCurrentPlayer}
 				currentPlayer={currentPlayer}
 				isDraw={isDraw}
 				isGameEnded={isGameEnded}
 			/>
 
-			<Field
-				field={field}
-				setCurrentPlayer={setCurrentPlayer}
-				currentPlayer={currentPlayer}
-				setField={setField}
-				isGameEnded={isGameEnded}
-				setIsGameEnded={setIsGameEnded}
-				setIsDraw={setIsDraw}
-			/>
+			<Field field={field} onClick={onClick} />
 			<button className={styles['new-game-button']} onClick={startAgain}>
 				Начать заново
 			</button>
@@ -52,6 +42,41 @@ export const Game = () => {
 	const [isDraw, setIsDraw] = useState(false);
 	const [field, setField] = useState(['', '', '', '', '', '', '', '', '']);
 
+	const WIN_PATTERNS = [
+		[0, 1, 2],
+		[3, 4, 5],
+		[6, 7, 8], // Варианты побед по горизонтали
+		[0, 3, 6],
+		[1, 4, 7],
+		[2, 5, 8], // Варианты побед по вертикали
+		[0, 4, 8],
+		[2, 4, 6], // Варианты побед по диагонали
+	];
+
+	const onClick = (index) => {
+		if (!field[index] && !isGameEnded) {
+			field[index] = currentPlayer;
+			setField(field);
+			if (currentPlayer === 'X') {
+				setCurrentPlayer('O');
+			} else if (currentPlayer === 'O') {
+				setCurrentPlayer('X');
+			}
+		}
+		const isAllFullFieldButtons = field.every((item) => {
+			return item;
+		});
+		for (let i = 0; i < WIN_PATTERNS.length; i++) {
+			const [a, b, c] = WIN_PATTERNS[i];
+			if (field[a] && field[a] === field[b] && field[a] === field[c]) {
+				setIsGameEnded(true);
+				setCurrentPlayer(field[a]);
+			} else if (field[a] !== field[b] && isAllFullFieldButtons) {
+				setIsDraw(true);
+			}
+		}
+	};
+
 	return (
 		<GameLayout
 			field={field}
@@ -62,6 +87,7 @@ export const Game = () => {
 			isDraw={isDraw}
 			isGameEnded={isGameEnded}
 			setField={setField}
+			onClick={onClick}
 		/>
 	);
 };
