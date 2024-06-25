@@ -5,21 +5,12 @@ import { Information, Field } from './components';
 
 const GameLayout = ({
 	field,
-	setIsDraw,
-	setIsGameEnded,
-	setCurrentPlayer,
 	currentPlayer,
 	isDraw,
 	isGameEnded,
-	setField,
 	onClick,
+	startAgain,
 }) => {
-	const startAgain = () => {
-		setCurrentPlayer('X');
-		setIsGameEnded(false);
-		setIsDraw(false);
-		setField(['', '', '', '', '', '', '', '', '']);
-	};
 	return (
 		<div className={styles.app}>
 			<Information
@@ -77,6 +68,13 @@ export const Game = () => {
 		}
 	};
 
+	const startAgain = () => {
+		setCurrentPlayer('X');
+		setIsGameEnded(false);
+		setIsDraw(false);
+		setField(['', '', '', '', '', '', '', '', '']);
+	};
+
 	return (
 		<GameLayout
 			field={field}
@@ -88,6 +86,7 @@ export const Game = () => {
 			isGameEnded={isGameEnded}
 			setField={setField}
 			onClick={onClick}
+			startAgain={startAgain}
 		/>
 	);
 };
